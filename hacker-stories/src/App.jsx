@@ -25,34 +25,68 @@ const list = [
 }
 ];
 
+class Person {
+  constructor(firstName, lastName){
+    this.firstName = firstName; 
+    this.lastName = lastName; 
+  }
 
-function App(){
+  getName(){
+    return this.firstName + ' ' + this.lastName; 
+  }
+
+}
+
+const robin = new Person('Robin', 'Wieruch');
+console.log(robin.getName()); 
+
+const dennis = new Person('Dennis', 'Wieruch'); 
+console.log(dennis.getName());
+
+
+const App = () =>{
   return(
       <div>
       <h1>My Hacker Stories</h1>
 
-      <label htmlFor="serach">Search: </label>
-      <input id="search" type="text"/> 
+      <Search />
       
       <hr/>
 
-      <ul>
-        {list.map(function (item){
-          return ( 
-            <li key={item.objectID}> 
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            </li>
-          )
-        })}
-      </ul>
+     <List/>
       
       </div>
     )
+}
+
+//Adding new List() Component 
+const List = () =>{
+  return (
+    <ul>
+    {list.map((item) => {
+      return ( 
+      <li key={item.objectID}>
+      <span>
+        <a href={item.url}>{item.title}</a>
+      </span>
+      <span>{item.author}</span>
+      <span>{item.num_comments}</span>
+      <span>{item.points}</span>
+      </li>
+    );
+    })}
+    </ul>
+  );
+}
+
+//Search Component 
+const Search = () =>{
+  return(
+    <div>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" /> 
+    </div>
+  )
 }
 
 export default App; 
