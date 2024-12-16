@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import * as React from 'react'; 
 
 //const title = 'React'; 
@@ -47,65 +49,63 @@ const App = () =>{
     }
     ];
 
+    const [searchTerm, setSearchTerm] = React.useState('React'); 
+
     const handleSearch = (event) => { 
-      console.log(event.target.value);
+      setSearchTerm(event.target.value);
     }
+
+    const searchedStories = stories.filter((story)=> 
+    story.title.toLowerCase().includes(searchTerm.toLowerCase()
+  ))
 
   return(
       <div>
       <h1>My Hacker Stories</h1>
 
-      <Search onSearch={handleSearch} />
+      <Search search={searchTerm} onSearch={handleSearch}/>
       
       <hr/>
         {/*using props to pass the list of items to the List component. */} 
-     <List list={stories}/>
+     <List list={searchedStories}/>
       
       </div>
     )
 }
 
+const Search = ({search, onSearch}) => {
+ 
+  return(
+  <div> 
+    <label htmlFor="search">Search: </label>
+    <input id="search" 
+    type="text" 
+    value={search}
+    onChange={onSearch} />
+  
+  </div>
+)
+}
 //Adding new List() Component 
 //props in React allow you to pass variables as information from one component to another.
-const List = (props) => (
+const List = ({list}) => (
   <ul>
-    {props.list.map((item) => (
-      <Item key={item.objectID} item={item} />
+    {list.map((item) => (
+     <Item key={item.objectID} {...item} /> 
     ))}
   </ul>
 ); 
 
-const Item = (props) => (
+const Item = ({title, url,author,num_comments, points}) => (
   <li>
     <span> 
-      <a href={props.item.url}>{props.item.title}</a>
+      <a href={url}>{title}</a>
     </span>
-    <span>{props.item.author}</span>
-    <span>{props.item.num_comments}</span>
-    <span>{props.item.points}</span>
+    <span>{author}</span>
+    <span>{num_comments}</span>
+    <span>{points}</span>
   </li>
 );
 
-//Search Component 
-const Search = (props) =>{
-  //useState is telling react that we want to have a stateful value which changes over time
-  const [searchTerm, setSearchTerm] = React.useState(''); 
-
-  const handleChange = (event) => {
-   const [searchTerm, setSearchTerm] = React.useState(''); 
-
-   const handleChange = (event) => {
-    setSearchTerm(event.target.value); 
-
-    props.onSearch(event); 
-   }
-  }
-  return(
-    <div>
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={handleChange}/> 
-    </div> 
-  )
-}
 
 export default App; 
